@@ -1,0 +1,88 @@
+﻿@model WebApplication1.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CountryId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAdress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailAdress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsInactive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsInactive)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeactiveDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeactiveDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GravatarUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GravatarUrl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdGroupNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdGroupNavigation.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
