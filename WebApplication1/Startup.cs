@@ -25,7 +25,7 @@ namespace WebApplication1
         {
             services.AddMvc();
             var connection = @"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
+          services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
 
         }
         //Data Source = DESKTOP - 3Q1QMSK;Initial Catalog = psr03951DataBase; Integrated Security = True

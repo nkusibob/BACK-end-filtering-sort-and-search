@@ -6,30 +6,35 @@ namespace WebApplication1.Models
 {
     public partial class psr03951DataBaseContext : DbContext
     {
-        public psr03951DataBaseContext()
-        {
-        }
-
-        public psr03951DataBaseContext(DbContextOptions<psr03951DataBaseContext> options)
-            : base(options)
-        {
-        }
-
+        public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Rejoint> Rejoint { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public psr03951DataBaseContext(DbContextOptions<psr03951DataBaseContext> options) :base(options)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;");
-            }
+
         }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer(@"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasColumnName("countryName")
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -66,10 +71,9 @@ namespace WebApplication1.Models
 
                 entity.Property(e => e.Gender)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                    .HasColumnType("char(10)");
 
-                entity.Property(e => e.GravatarUrl).HasMaxLength(10);
+                entity.Property(e => e.GravatarUrl).HasColumnType("nchar(10)");
 
                 entity.Property(e => e.IdGroup).HasColumnName("idGroup");
 
@@ -79,10 +83,16 @@ namespace WebApplication1.Models
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(50);
 
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Country");
+
                 entity.HasOne(d => d.IdGroupNavigation)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.IdGroup)
-                    .HasConstraintName("FK_User_Group");
+                    .HasConstraintName("FK_User_PrincipalGroup");
             });
         }
     }

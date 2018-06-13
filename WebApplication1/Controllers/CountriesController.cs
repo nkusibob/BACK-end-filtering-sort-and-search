@@ -9,23 +9,22 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class UsersController : Controller
+    public class CountriesController : Controller
     {
         private readonly psr03951DataBaseContext _context;
 
-        public UsersController(psr03951DataBaseContext context)
+        public CountriesController(psr03951DataBaseContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Countries
         public async Task<IActionResult> Index()
         {
-            var psr03951DataBaseContext = _context.User.Include(u => u.Country).Include(u => u.IdGroupNavigation);
-            return View(await psr03951DataBaseContext.ToListAsync());
+            return View(await _context.Country.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Countries/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,45 +32,39 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .Include(u => u.Country)
-                .Include(u => u.IdGroupNavigation)
+            var country = await _context.Country
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (country == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(country);
         }
 
-        // GET: Users/Create
+        // GET: Countries/Create
         public IActionResult Create()
         {
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName");
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Countries/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CountryId,FirstName,LastName,CreationDate,EmailAdress,Gender,PhoneNumber,IsInactive,DeactiveDate,GravatarUrl,IdGroup")] User user)
+        public async Task<IActionResult> Create([Bind("Id,CountryName")] Country country)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(country);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
-            return View(user);
+            return View(country);
         }
 
-        // GET: Users/Edit/5
+        // GET: Countries/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,24 +72,22 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var country = await _context.Country.SingleOrDefaultAsync(m => m.Id == id);
+            if (country == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
-            return View(user);
+            return View(country);
         }
 
-        // POST: Users/Edit/5
+        // POST: Countries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CountryId,FirstName,LastName,CreationDate,EmailAdress,Gender,PhoneNumber,IsInactive,DeactiveDate,GravatarUrl,IdGroup")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CountryName")] Country country)
         {
-            if (id != user.Id)
+            if (id != country.Id)
             {
                 return NotFound();
             }
@@ -105,12 +96,12 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(country);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!CountryExists(country.Id))
                     {
                         return NotFound();
                     }
@@ -121,12 +112,10 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
-            return View(user);
+            return View(country);
         }
 
-        // GET: Users/Delete/5
+        // GET: Countries/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,32 +123,30 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .Include(u => u.Country)
-                .Include(u => u.IdGroupNavigation)
+            var country = await _context.Country
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (country == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(country);
         }
 
-        // POST: Users/Delete/5
+        // POST: Countries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
-            _context.User.Remove(user);
+            var country = await _context.Country.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Country.Remove(country);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool CountryExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Country.Any(e => e.Id == id);
         }
     }
 }

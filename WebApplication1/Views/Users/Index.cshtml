@@ -14,9 +14,6 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.CountryId)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.FirstName)
                 </th>
                 <th>
@@ -44,6 +41,9 @@
                     @Html.DisplayNameFor(model => model.GravatarUrl)
                 </th>
             <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.IdGroupNavigation)
             </th>
             <th></th>
@@ -52,9 +52,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -81,6 +78,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GravatarUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.CountryName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdGroupNavigation.Name)

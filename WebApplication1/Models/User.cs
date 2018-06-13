@@ -18,6 +18,7 @@ namespace WebApplication1.Models
         public string GravatarUrl { get; set; }
         public int? IdGroup { get; set; }
 
+        public Country Country { get; set; }
         public Group IdGroupNavigation { get; set; }
     }
 }
