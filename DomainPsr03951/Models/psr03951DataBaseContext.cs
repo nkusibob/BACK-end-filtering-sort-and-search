@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace WebApplication1.Models
+namespace DomainPsr03951.Models
 {
     public partial class psr03951DataBaseContext : DbContext
     {

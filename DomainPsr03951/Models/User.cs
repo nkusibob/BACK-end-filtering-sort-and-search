@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace DomainPsr03951.Models
 {
-    public partial class User
+    public  class User
     {
         public int Id { get; set; }
         public int CountryId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace Domain.psr03951_Model
 {
     public partial class Rejoint
     {

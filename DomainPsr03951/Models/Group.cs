@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace DomainPsr03951.Models
 {
-    public partial class Group
+    public  class Group
     {
         public Group()
         {

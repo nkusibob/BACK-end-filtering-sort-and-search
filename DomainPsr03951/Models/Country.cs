@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace DomainPsr03951.Models
 {
-    public partial class Country
+    public  class Country
     {
         public Country()
         {

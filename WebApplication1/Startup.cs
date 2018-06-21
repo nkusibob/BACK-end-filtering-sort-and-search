@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
+using DomainPsr03951.Models;
 
 namespace WebApplication1
 {
