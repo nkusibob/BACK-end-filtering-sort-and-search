@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -28,6 +29,24 @@ namespace WebApi
             services.AddMvc();
             var connection = @"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Project2018",
+                    Description = "Web2018",
+                    TermsOfService = "None",
+                    Contact = new Contact
+                    {
+                        Name = "psr03951",
+                        Email = "devrootbob@gmail.com",
+                        Url = "https://www.linkedin.com/in/robert-nkusi-7b87ba39/"
+                    },
+                   
+                });
+            });
 
         }
 
@@ -38,6 +57,15 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseMvc();
         }
