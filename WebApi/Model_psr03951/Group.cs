@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.psr03951_Model
+namespace WebApi.Model_psr03951
 {
     public partial class Group
     {
