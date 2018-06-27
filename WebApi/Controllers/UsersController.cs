@@ -11,7 +11,7 @@ using DomainPsr03951.Models;
 namespace WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Users")]
+    [Route("api/users")]
     public class UsersController : Controller
     {
         private readonly psr03951DataBaseContext _context;

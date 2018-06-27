@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+using WebApplication1.Helper;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
+    
     public class UsersController : Controller
     {
         private readonly psr03951DataBaseContext _context;
-
+        UserApi _api = new UserApi();
         public UsersController(psr03951DataBaseContext context)
         {
             _context = context;
@@ -21,8 +25,16 @@ namespace WebApplication1.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var psr03951DataBaseContext = _context.User.Include(u => u.Country).Include(u => u.IdGroupNavigation);
-            return View(await psr03951DataBaseContext.ToListAsync());
+            List<User> users = new List<User>();
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/users");
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                users =  JsonConvert.DeserializeObject<List<User>>(result);
+            }
+            //var psr03951DataBaseContext = _context.User.Include(u => u.Country).Include(u => u.IdGroupNavigation);
+            return View(users);
         }
 
         // GET: Users/Details/5
