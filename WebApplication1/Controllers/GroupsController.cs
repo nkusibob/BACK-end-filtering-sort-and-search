@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+using WebApplication1.Helper;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace WebApplication1.Controllers
 {
     public class GroupsController : Controller
     {
         private readonly psr03951DataBaseContext _context;
-
+        UserApi _api = new UserApi();
         public GroupsController(psr03951DataBaseContext context)
         {
             _context = context;
@@ -57,8 +61,12 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
-                await _context.SaveChangesAsync();
+                HttpClient client = _api.Initial();
+
+                var stringContent = new StringContent(JsonConvert.SerializeObject(@group), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage res = await client.PostAsync("api/Groups/" , stringContent);
+                if(res.IsSuccessStatusCode)
                 return RedirectToAction(nameof(Index));
             }
             return View(@group);
@@ -67,17 +75,24 @@ namespace WebApplication1.Controllers
         // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            Group group = new Group();
             if (id == null)
             {
                 return NotFound();
             }
-
-            var @group = await _context.Group.SingleOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/Groups/" + id);
+            if (res.IsSuccessStatusCode)
             {
+                var result = res.Content.ReadAsStringAsync().Result;
+                group = JsonConvert.DeserializeObject<Group>(result);
+                return View(group);
+
+            }
+            else {
                 return NotFound();
             }
-            return View(@group);
+          
         }
 
         // POST: Groups/Edit/5
@@ -96,8 +111,18 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(@group);
-                    await _context.SaveChangesAsync();
+                    HttpClient client = _api.Initial();
+
+                    var stringContent = new StringContent(JsonConvert.SerializeObject(@group), Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage res = await client.PutAsync("api/Groups/" + id, stringContent);
+                    if (res.IsSuccessStatusCode)
+                    {
+
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
