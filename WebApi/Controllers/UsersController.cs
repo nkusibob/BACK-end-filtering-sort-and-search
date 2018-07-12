@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using DomainPsr03951.Models;
 
 namespace WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/users")]
+    [Route("api/Users")]
     public class UsersController : Controller
     {
         private readonly psr03951DataBaseContext _context;
@@ -37,7 +36,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.User.SingleOrDefaultAsync(m => m.id == id);
 
             if (user == null)
             {
@@ -56,7 +55,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != user.Id)
+            if (id != user.id)
             {
                 return BadRequest();
             }
@@ -84,17 +83,37 @@ namespace WebApi.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public async Task<IActionResult> postUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.User.Add(new User {
+                    CountryId=user.CountryId,
+                    FirstName=user.FirstName,
+                    LastName=user.LastName,
+                    CreationDate=user.CreationDate,
+                    EmailAdress=user.EmailAdress,
+                    Gender=user.Gender,
+                    PhoneNumber=user.PhoneNumber,
+                    IsInactive=user.IsInactive,
+                    DeactiveDate=user.DeactiveDate,
+                    GravatarUrl=user.GravatarUrl,
+                    IdGroup=user.IdGroup
+                });
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+                throw;
+            }
+
+            return CreatedAtAction("GetUser", new { id = user.id }, user);
         }
 
         // DELETE: api/Users/5
@@ -106,7 +125,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.User.SingleOrDefaultAsync(m => m.id == id);
             if (user == null)
             {
                 return NotFound();
@@ -120,7 +139,7 @@ namespace WebApi.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.User.Any(e => e.id == id);
         }
     }
 }

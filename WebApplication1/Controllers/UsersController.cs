@@ -9,6 +9,9 @@ using DomainPsr03951.Models;
 using WebApplication1.Helper;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Net;
+using DomainPsr03951;
+using System.Text;
 
 namespace WebApplication1.Controllers
 {
@@ -48,7 +51,7 @@ namespace WebApplication1.Controllers
             var user = await _context.User
                 .Include(u => u.Country)
                 .Include(u => u.IdGroupNavigation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.id == id);
             if (user == null)
             {
                 return NotFound();
@@ -74,31 +77,50 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    HttpClient client = _api.Initial();
+               
+                var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage res = await client.PostAsync("api/users", stringContent);
+                if (res.IsSuccessStatusCode)
+                {
+
+                    return RedirectToAction(nameof(Index));
+                }
+               
+              
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
+            ViewData["CountryId"] = new SelectList(_context.Country, "id", "CountryName", user.CountryId);
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", user.IdGroup);
             return View(user);
         }
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            User myuser = new User();
             if (id == null)
             {
                 return NotFound();
             }
-
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            HttpClient client = _api.Initial();
+            
+            HttpResponseMessage res = await client.GetAsync("api/users/"+id);
+            if (res.IsSuccessStatusCode)
             {
-                return NotFound();
+               
+                var result = res.Content.ReadAsStringAsync().Result;
+                myuser = JsonConvert.DeserializeObject<User>(result);
             }
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
-            return View(user);
+           
+            //var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", myuser.CountryId);
+            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", myuser.IdGroup);
+            return View(myuser);
         }
 
         // POST: Users/Edit/5
@@ -106,9 +128,9 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CountryId,FirstName,LastName,CreationDate,EmailAdress,Gender,PhoneNumber,IsInactive,DeactiveDate,GravatarUrl,IdGroup")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("id,CountryId,FirstName,LastName,CreationDate,EmailAdress,Gender,PhoneNumber,IsInactive,DeactiveDate,GravatarUrl,IdGroup")] User user)
         {
-            if (id != user.Id)
+            if (id != user.id)
             {
                 return NotFound();
             }
@@ -117,12 +139,23 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    HttpClient client = _api.Initial();
+
+                    var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage res = await client.PutAsync("api/users/" + id, stringContent);
+                    if (res.IsSuccessStatusCode)
+                    {
+
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                   
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserExists(user.id))
                     {
                         return NotFound();
                     }
@@ -149,7 +182,7 @@ namespace WebApplication1.Controllers
             var user = await _context.User
                 .Include(u => u.Country)
                 .Include(u => u.IdGroupNavigation)
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.id == id);
             if (user == null)
             {
                 return NotFound();
@@ -163,7 +196,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.User.SingleOrDefaultAsync(m => m.id == id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -171,7 +204,7 @@ namespace WebApplication1.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.User.Any(e => e.id == id);
         }
     }
 }

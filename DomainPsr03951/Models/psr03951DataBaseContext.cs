@@ -59,7 +59,7 @@ namespace DomainPsr03951.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.id).HasColumnName("id");
 
                 entity.Property(e => e.CreationDate).HasColumnType("date");
 
