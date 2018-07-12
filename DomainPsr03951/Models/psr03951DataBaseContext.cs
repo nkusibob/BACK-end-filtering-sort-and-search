@@ -50,7 +50,7 @@ namespace DomainPsr03951.Models
 
             modelBuilder.Entity<Rejoint>(entity =>
             {
-                entity.HasKey(e => new { e.IdGroup, e.IdUser });
+                entity.HasKey(e => new { e.IdGroup, e.id });
 
                 entity.ToTable("rejoint");
 

@@ -110,7 +110,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
             return CreatedAtAction("GetUser", new { id = user.id }, user);
