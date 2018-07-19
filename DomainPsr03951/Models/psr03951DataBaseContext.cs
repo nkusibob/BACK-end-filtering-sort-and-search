@@ -50,12 +50,25 @@ namespace DomainPsr03951.Models
 
             modelBuilder.Entity<Rejoint>(entity =>
             {
-                entity.HasKey(e => new { e.IdGroup, e.id });
+                entity.HasKey(e => new { e.IdGroup, e.idUser});
 
                 entity.ToTable("rejoint");
 
                 entity.Property(e => e.IdGroup).HasColumnName("idGroup");
             });
+            //modelBuilder.Entity<RejointsViewModel>(entity =>
+            //{
+            //    entity.HasKey(e => new { e.IdGroup, e.idUser });
+
+            //    entity.ToTable("rejoint");
+
+            //    entity.Property(e => e.IdGroup).HasColumnName("idGroup");
+            //    entity.Property(e => e.idUser).HasColumnName("idUser");
+            //    entity.Property(e => e.Name).HasColumnName("Name");
+            //    entity.Property(e => e.LastName).HasColumnName("LastName");
+            //    entity.Property(e => e.FirstName).HasColumnName("FirstName");
+
+            //});
 
             modelBuilder.Entity<User>(entity =>
             {

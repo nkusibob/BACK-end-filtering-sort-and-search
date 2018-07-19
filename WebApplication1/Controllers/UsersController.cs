@@ -77,7 +77,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                    HttpClient client = _api.Initial();
+                HttpClient client = _api.Initial();
                
                 var stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 

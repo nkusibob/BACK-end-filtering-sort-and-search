@@ -112,23 +112,31 @@ namespace WebApi.Controllers
 
         // DELETE: api/Rejoints/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRejoint([FromRoute] int id)
+        public async Task<IActionResult> DeleteRejoint(int id)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var rejoint = await _context.Rejoint.SingleOrDefaultAsync(m => m.IdGroup == id);
-            if (rejoint == null)
+                var rejoint = await _context.Rejoint.FirstOrDefaultAsync(m => m.idUser == id);
+                if (rejoint == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Rejoint.Remove(rejoint);
+                await _context.SaveChangesAsync();
+
+                return Ok(rejoint);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+
+                throw;
             }
-
-            _context.Rejoint.Remove(rejoint);
-            await _context.SaveChangesAsync();
-
-            return Ok(rejoint);
         }
 
         private bool RejointExists(int id)

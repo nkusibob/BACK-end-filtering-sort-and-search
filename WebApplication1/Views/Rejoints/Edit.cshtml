@@ -13,8 +13,9 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdGroup" />
-            <input type="hidden" asp-for="IdUser" />
+            <input asp-for="IdGroup" />
+            <input  asp-for="idUser" />
+        
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

@@ -14,17 +14,9 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.idUser)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.IdGroup)
             </th>
@@ -36,24 +28,16 @@
 {
         <tr>
             <td>
-                @item.id
+                @item.idUser
             </td>
-            <td>
-              @item.LastName
-            </td>
-            <td>
-                @item.FirstName
-            </td>
-            <td>
-               @item.Name
-            </td>
+          
             <td>
                @item.IdGroup
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {id=item.idUser }) |
+                @Html.ActionLink("Details", "Details", new { id = item.idUser }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.idUser })
             </td>
         </tr>
 }

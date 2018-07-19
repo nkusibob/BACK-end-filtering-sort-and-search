@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
+using WebApplication1.Helper;
 
 namespace WebApplication1.Controllers
 {
     public class RejointsController : Controller
     {
         private readonly psr03951DataBaseContext _context;
-
+        UserApi _api = new UserApi();
         public RejointsController(psr03951DataBaseContext context)
         {
             _context = context;
@@ -21,7 +25,7 @@ namespace WebApplication1.Controllers
         // GET: Rejoints
         public  ActionResult Index()
         {
-            var usersperGroup =  _context.Rejoint.FromSql("EXECUTE dbo.sp_userPerGroup").ToList();
+            var usersperGroup =  _context.Rejoint.FromSql("EXECUTE dbo.sp_userOtherGroup").ToList();
             ViewBag.userPerGroup = usersperGroup;
             return View(usersperGroup);
         }
@@ -35,7 +39,7 @@ namespace WebApplication1.Controllers
             }
 
             var rejoint = await _context.Rejoint
-                .SingleOrDefaultAsync(m => m.IdGroup == id);
+                .SingleOrDefaultAsync(m => m.idUser == id);
             if (rejoint == null)
             {
                 return NotFound();
@@ -47,7 +51,10 @@ namespace WebApplication1.Controllers
         // GET: Rejoints/Create
         public IActionResult Create()
         {
+            var user = _context.User;
+            ViewBag.users = user.ToList();
             ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name");
+            ViewData["IdUser"] = new SelectList(_context.User, "id", "LastName");
             return View();
         }
 
@@ -56,13 +63,23 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdGroup,IdUser")] Rejoint rejoint)
+        public async Task<IActionResult> Create([Bind("IdGroup,idUser")] Rejoint rejoint)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rejoint);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = _api.Initial();
+
+                var stringContent = new StringContent(JsonConvert.SerializeObject(rejoint), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage res = await client.PostAsync("api/Rejoints", stringContent);
+                if (res.IsSuccessStatusCode)
+                {
+
+                    return RedirectToAction(nameof(Index));
+                }
+
+               
             }
             
             return View(rejoint);
@@ -76,7 +93,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var rejoint = await _context.Rejoint.SingleOrDefaultAsync(m => m.IdGroup == id);
+            var rejoint = await _context.Rejoint.SingleOrDefaultAsync(m => m.idUser == id);
             if (rejoint == null)
             {
                 return NotFound();
@@ -127,13 +144,11 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var rejoint = await _context.Rejoint
-                .SingleOrDefaultAsync(m => m.IdGroup == id);
+            var rejoint = await _context.Rejoint.FirstOrDefaultAsync(m => m.idUser == id);
             if (rejoint == null)
             {
                 return NotFound();
             }
-
             return View(rejoint);
         }
 
@@ -142,9 +157,24 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rejoint = await _context.Rejoint.SingleOrDefaultAsync(m => m.IdGroup == id);
-            _context.Rejoint.Remove(rejoint);
-            await _context.SaveChangesAsync();
+            try
+            {
+                HttpClient client = _api.Initial();
+
+
+                HttpResponseMessage res = await client.DeleteAsync("api/Rejoints/" + id);
+                if (res.IsSuccessStatusCode)
+                {
+
+                    return RedirectToAction(nameof(Index));
+                }
+ 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            };
             return RedirectToAction(nameof(Index));
         }
 
