@@ -36,7 +36,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var rejoint = await _context.Rejoint.SingleOrDefaultAsync(m => m.IdGroup == id);
+            var rejoint = await _context.Rejoint.FirstOrDefaultAsync(m => m.idUser == id);
 
             if (rejoint == null)
             {
@@ -135,7 +135,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 

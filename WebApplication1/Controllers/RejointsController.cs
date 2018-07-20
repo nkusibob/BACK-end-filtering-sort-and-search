@@ -139,17 +139,31 @@ namespace WebApplication1.Controllers
         // GET: Rejoints/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            Rejoint rejoint = new Rejoint();
             if (id == null)
             {
                 return NotFound();
             }
+            HttpClient client = _api.Initial();
 
-            var rejoint = await _context.Rejoint.FirstOrDefaultAsync(m => m.idUser == id);
-            if (rejoint == null)
+            HttpResponseMessage res = await client.GetAsync("api/Rejoints/" + id);
+            if (res.IsSuccessStatusCode)
+            {
+
+                var result = res.Content.ReadAsStringAsync().Result;
+                rejoint = JsonConvert.DeserializeObject<Rejoint>(result);
+                return View(rejoint);
+            }
+            else
             {
                 return NotFound();
             }
-            return View(rejoint);
+
+
+           
+
+          
+           
         }
 
         // POST: Rejoints/Delete/5
