@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using System.Net;
 using DomainPsr03951;
 using System.Text;
+using WebApplication1.Model;
+using Microsoft.AspNetCore.Cors;
 
 namespace WebApplication1.Controllers
 {
@@ -20,14 +22,176 @@ namespace WebApplication1.Controllers
     {
         private readonly psr03951DataBaseContext _context;
         UserApi _api = new UserApi();
+        private static List<User> filteredusers = new List<User>();
+        public static DateTime StringToDate(string Date)
+        {
+            try
+            {
+                return DateTime.Parse(Date);
+            }
+            catch (FormatException)
+            {
+                return DateTime.Parse("1/1/0001");
+            }
+        }
         public UsersController(psr03951DataBaseContext context)
         {
             _context = context;
         }
+        public  IQueryable<User> FilteredUser()
+        {
+            try
+            {
+                var id = Request.Form [("columns[0][search][value]")].FirstOrDefault();
+                var CountryId = Request.Form [("columns[1][search][value]")].FirstOrDefault();
+                var FirstName = Request.Form[("columns[2][search][value]")].FirstOrDefault();
+                var LastName = Request.Form[("columns[3][search][value]")].FirstOrDefault();
 
+                var CreationDate = Request.Form[("columns[4][search][value]")].FirstOrDefault();
+                var EmailAdress = Request.Form[("columns[5][search][value]")].FirstOrDefault();
+                var Gender = Request.Form[("columns[6][search][value]")].FirstOrDefault();
+                var PhoneNumber = Request.Form[("columns[7][search][value]")].FirstOrDefault();
+                var isInactive = Request.Form[("columns[8][search][value]")].FirstOrDefault();
+                var DeactiveDate = Request.Form[("columns[9][search][value]")].FirstOrDefault();
+                var GravatarUrl = Request.Form[("columns[10][search][value]")].FirstOrDefault();
+                var IdGroup = Request.Form[("columns[11][search][value]")].FirstOrDefault();
+
+                
+
+
+                // List<User> userList = User.GetData();
+                var search = Request.Form[("search[value]")].FirstOrDefault();
+
+
+                var users = _context.User.ToList();
+
+                var results = users.AsQueryable();
+                results = results.Where
+             (
+               p => (search == null || (p.id != 0 && p.id.ToString().ToLower().Contains(search.ToLower())) 
+                 || p.CountryId != 0 && p.CountryId.ToString().ToLower().Contains(search.ToLower())
+                 || p.FirstName != null && p.FirstName.ToString().ToLower().Contains(search.ToLower()) 
+                 || p.LastName != null && p.LastName.ToString().ToLower().Contains(search.ToLower())
+                 
+                 || p.CreationDate != null && p.CreationDate == StringToDate(search) 
+                 || p.EmailAdress != null && p.EmailAdress.ToString().ToLower().Contains(search.ToLower())
+                 || p.Gender != null && p.Gender.ToString().ToLower().Contains(search.ToLower()) 
+                 || p.PhoneNumber != null && p.PhoneNumber.ToString().ToLower().Contains(search.ToLower())
+                 || p.Country != null && p.Country.ToString().ToLower().Contains(search.ToLower()) 
+                 || p.IdGroup != 0 && p.IdGroup.ToString().ToLower().Contains(search.ToLower())
+                 || p.DeactiveDate != null && p.DeactiveDate == StringToDate(search))
+                 
+
+
+              //  && (id == null || (p.id != 0 && p.id.ToString().ToLower().Contains(id.ToLower())))
+              //  && (CountryId == null || (p.CountryId != 0 && p.CountryId.ToString().ToLower().Contains(CountryId.ToLower())))
+              //  && (FirstName == null || (p.FirstName != null && p.FirstName.ToString().ToLower().Contains(FirstName.ToLower())))
+              //&& (LastName == null || (p.LastName.ToString().ToLower().Contains(LastName.ToLower())))
+              // && (CreationDate == null || (p.CreationDate != null && p.CreationDate.ToString().ToLower().Contains(CreationDate.ToLower())))
+              // && (EmailAdress == null || (p.EmailAdress.ToString().ToLower().Contains(EmailAdress.ToLower())))
+              //  && (Gender == null || (p.Gender.ToString().ToLower().Contains(Gender.ToLower())))
+              //  && (DeactiveDate == null || (p.DeactiveDate.ToString().ToLower().Contains(DeactiveDate.ToLower())))
+              //  && (Country == null || (p.Country != null && p.Country.ToString().ToLower().Contains(Country.ToLower())))
+               
+
+
+
+
+             );
+                return results;
+            }
+            catch (Exception EX)
+            {
+
+                throw EX;
+            }
+
+        }
+      
+
+        public async Task<IActionResult> UserLoadData()
+
+       {
+            //Get parameters
+            try
+            {
+                // get Start (paging start index) and length (page size for paging)
+                var draw = Request.Form ["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+
+                var search = Request.Form["search[value]"].FirstOrDefault();
+                var length = Request.Form[("length")].FirstOrDefault();
+                //Get Sort columns value
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDir = Request.Form["order[0][dir]"].FirstOrDefault();
+               
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int totalRecords = 0;
+                List<User> v = _context.User.ToList();
+                // Sorting
+
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                  // v =v.OrderBy(sortColumn + " " + sortColumnDir).ToList();
+                }
+
+                //filtering
+                var results = FilteredUser();
+                await Task.Delay(1);
+                v = results.ToList();
+                filteredusers = v;
+                totalRecords = v.Count();
+                var data = v.Skip(skip).Take(pageSize).ToList();
+               
+                return Json(new {  draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data });
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public JsonResult DataHandler(DTParameters param)
+        {
+            try
+            {
+                var dtsource = new List<User>();
+                
+                    dtsource = _context.User.ToList();
+                
+
+                List<String> columnSearch = new List<string>();
+
+                foreach (var col in param.Columns)
+                {
+                    columnSearch.Add(col.Search.Value);
+                }
+
+                List<User> data = new ResultSet().GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                int count = new ResultSet().Count(param.Search.Value, dtsource, columnSearch);
+                DTResult<User> result = new DTResult<User>
+                {
+                    draw = param.Draw,
+                    data = data,
+                    recordsFiltered = count,
+                    recordsTotal = count
+                };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
         // GET: Users
         public async Task<IActionResult> Index()
         {
+
             List<User> users = new List<User>();
             HttpClient client = _api.Initial();
             HttpResponseMessage res = await client.GetAsync("api/users");

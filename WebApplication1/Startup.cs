@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApplication1
 {
@@ -22,12 +23,18 @@ namespace WebApplication1
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             var connection = @"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;ConnectRetryCount=0";
           services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
+            services.AddMvc()
+                                .AddJsonOptions(options =>
+                                {
+                                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                                });
 
+            return services.BuildServiceProvider();
         }
         //Data Source = DESKTOP - 3Q1QMSK;Initial Catalog = psr03951DataBase; Integrated Security = True
 

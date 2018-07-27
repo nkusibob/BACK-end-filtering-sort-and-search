@@ -1,96 +1,423 @@
 ﻿@model IEnumerable<DomainPsr03951.Models.User>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="myTable">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EmailAdress)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Gender)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsInactive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeactiveDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GravatarUrl)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                @Html.DisplayNameFor(model => model.id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdGroupNavigation)
+                @Html.DisplayNameFor(model => model.CountryId)
             </th>
-            <th></th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactiveDate)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.GravatarUrl)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IdGroup)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailAdress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsInactive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeactiveDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GravatarUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country.CountryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdGroupNavigation.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @*@foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.id)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(modelItem => item.CountryId)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.CreationDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => item.EmailAdress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.IsInactive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DeactiveDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => item.GravatarUrl)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => item.IdGroup)
+                        </td>
+
+                    </tr>
+
+            }*@
     </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactiveDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.GravatarUrl)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IdGroup)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+        </tr>
+    </tfoot>
 </table>
+@* Load datatable css *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    @* Load DataTable js here *@
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    @*<script>
+        function GetData() {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: '/Users/DataHandler',
+                data: '{}',
+                success: function (result) {
+                    $('#myTable').DataTable({
+                        data: result.d,
+                        "columns": [
+                            { "data": "id", "name": "id", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "CountryId", "name": "CountryId", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "FirstName", "name": "FirstName", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "LastName", "name": "LastName", "autoWidth": true, "defaultContent": "lalal" },
+
+                            { "data": "CreationDate_FORMAT", "name": "CreationDate", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "EmailAdress", "name": "EmailAdress", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "Gender", "name": "Gender", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "PhoneNumber", "name": "PhoneNumber", "autoWidth": true, "defaultContent": "lalal" },
+
+                            { "data": "isInactive", "name": "isInactive", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "GravatarUrl", "name": "GravatarUrl", "autoWidth": true, "defaultContent": "lalal" },
+                            { "data": "IdGroup", "name": "IdGroup", "autoWidth": true, "defaultContent": "lalal" },
+
+
+                            {
+                                "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/User/Edit/' + full.CustomerID + '">Edit</a>'; }
+                            },
+                            {
+                                data: null, render: function (data, type, row) {
+                                    return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+                                }
+                            },
+                        ]
+                    });
+                }
+            }
+
+        $(document).ready(function ()
+        {
+            $("#myTable").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                GetData()
+             
+
+            
+        });
+
+
+        function DeleteData(id)
+        {
+            if (confirm("Are you sure you want to delete ...?"))
+            {
+                Delete(id);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        function Delete(id)
+    {
+        var url = '@Url.Content("~/")' + "User/Delete";
+
+            $.post(url, { ID: CustomerID }, function (data)
+                {
+                    if (data)
+                    {
+                        oTable = $('#myTable').DataTable();
+                        oTable.draw();
+                    }
+                    else
+                    {
+                        alert("Something Went Wrong!");
+                    }
+                });
+    }
+
+    </script>*@
+    <script>
+        var datatableVariable = $('#myTable').DataTable({
+
+                        serverSide: true,
+                        processing: true,
+
+                        ajax: {
+                            url: '@Url.Action("DataHandler", "Users")',
+                            type: "POST"
+                        },
+                        rowId:'id',
+                        columns: [
+                                 { "data": "id", "name": "id", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "CountryId", "name": "CountryId", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "FirstName", "name": "FirstName", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "LastName", "name": "LastName", "autoWidth": true, "defaultContent": "lalal" },
+
+                                 { "data": "CreationDate_FORMAT", "name": "CreationDate", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "EmailAdress", "name": "EmailAdress", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "Gender", "name": "Gender", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "PhoneNumber", "name": "PhoneNumber", "autoWidth": true, "defaultContent": "lalal" },
+
+                                 { "data": "isInactive", "name": "isInactive", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "GravatarUrl", "name": "GravatarUrl", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "IdGroup", "name": "IdGroup", "autoWidth": true, "defaultContent": "lalal" },
+
+
+                                 {
+                                     "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/User/Edit/' + full.CustomerID + '">Edit</a>'; }
+                                 },
+                                 {
+                                     data: null, render: function (data, type, row) {
+                                         return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+                                     }
+                                 },
+                        ],
+
+
+
+
+        });
+        $('#myTable tfoot th').each(function () {
+            var placeHolderTitle = $('#myTable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control input input-sm; placeholder = "Search ' + placeHolderTitle + '" />');
+        });
+        datatableVariable.columns().every(function () {
+            var column = this;
+            $(this.footer()).find('input').on('keyup change', function () {
+                column.search(this.value).draw();
+            });
+        });
+        $('.showHide').on('click', function () {
+            var tableColumn = datatableVariable.column($(this).attr('data-columnindex'));
+            tableColumn.visible(!tableColumn.visible());
+        });
+
+    </script>
+    @*<script>
+
+        $(document).ready(function () {
+            var datatableVariable = $("#myTable").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true,
+                "bInfo": true,
+                "bPaginate": true,// this is for disable filter (search box)
+                "orderMulti": true, // for disable multiple column at once
+                "ajax": {
+                     url:"@Url.Action("DataHandler", "Users")",
+
+                    type: 'POST',
+                    data: function (d) {
+                        return JSON.stringify({ parameters: d })
+
+
+                },
+                "columns": [
+                    { "data": "id", "name": "id", "autoWidth": true,"defaultContent": "lalal" },
+                    { "data": "CountryId", "name": "CountryId", "autoWidth": true, "defaultContent": "lalal"},
+                    { "data": "FirstName", "name": "FirstName", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "LastName", "name": "LastName", "autoWidth": true, "defaultContent": "lalal" },
+
+                    { "data": "CreationDate_FORMAT", "name": "CreationDate", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "EmailAdress", "name": "EmailAdress", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "Gender", "name": "Gender", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "PhoneNumber", "name": "PhoneNumber", "autoWidth": true, "defaultContent": "lalal" },
+
+                    { "data": "isInactive", "name": "isInactive", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "GravatarUrl", "name": "GravatarUrl", "autoWidth": true, "defaultContent": "lalal" },
+                    { "data": "IdGroup", "name": "IdGroup", "autoWidth": true, "defaultContent": "lalal" },
+
+
+
+
+                    ],
+                
+            },
+            
+        })
+
+
+
+    </script>*@
+}
+@*<script>
+        $(document).ready(function () {
+
+            $('#myTable tfoot th').each(function () {
+                $(this).html('<input type="text" />');
+            });
+
+            var oTable = $('#myTable').DataTable({
+                "serverSide": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": '/Users/DataHandler',
+                    "contentType": 'application/json; charset=utf-8',
+                    
+                    'data': function (d) {
+                        return JSON.stringify({ parameters: d })
+
+                },
+                "dom": 'frtiS',
+                "scrollY": 500,
+                "scrollX": true,
+                "scrollCollapse": true,
+                "scroller": {
+                    loadingIndicator: false
+                },
+                "processing": true,
+                "paging": true,
+                "deferRender": true,
+                "columns": [
+                    { "data": "id" },
+                    { "data": "countryId" },
+                    { "data": "FirstName" },
+                    { "data": "LastName" },
+                    { "data": "CreationDate_FORMAT" },
+                    { "data": "EmailAdress" },
+                    { "data": "Gender" },
+                    { "data": "PhoneNumber" },
+                    { "data": "IsInactive" },
+                    { "data": "DeactiveDate_FORMAT" },
+                    { "data": "GravatarUrl " },
+                    {"data" :   "IdGroup"}
+
+                ],
+                "order": [0, "asc"]
+
+            });
+
+            oTable.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    that
+                        .search(this.value)
+                        .draw();
+                });
+            });
+
+        });
+    </script>*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
