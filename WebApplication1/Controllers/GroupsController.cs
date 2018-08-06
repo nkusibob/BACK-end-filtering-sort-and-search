@@ -10,6 +10,7 @@ using WebApplication1.Helper;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using WebApplication1.Model;
 
 namespace WebApplication1.Controllers
 {
@@ -27,7 +28,38 @@ namespace WebApplication1.Controllers
         {
             return View(await _context.Group.ToListAsync());
         }
+        public JsonResult GroupHandler(DTParameters param)
+        {
+            try
+            {
+               var dtsource = new List<Group>();
 
+                dtsource = _context.Group.ToList();
+
+
+                List<String> columnSearch = new List<string>();
+
+                foreach (var col in param.Columns)
+                {
+                    columnSearch.Add(col.Search.Value);
+                }
+
+                List<Group> data = new ResultSetGroup().GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                int count = new ResultSetGroup().Count(param.Search.Value, dtsource, columnSearch);
+                DTResult<Group> result = new DTResult<Group>
+                {
+                    draw = param.Draw,
+                    data = data,
+                    recordsFiltered = count,
+                    recordsTotal = count
+                };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
         // GET: Groups/Details/5
         public async Task<IActionResult> Details(int? id)
         {

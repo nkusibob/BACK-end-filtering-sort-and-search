@@ -5,45 +5,109 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="myTable">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsInactive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DeactivatedDate)
-                </th>
-            <th></th>
+            <td>
+                @Html.DisplayNameFor(model => model.Id)
+            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactivatedDate)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+      
+    </tbody>
+    <tfoot>
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayNameFor(model => model.Id)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsInactive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeactivatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactivatedDate)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-}
-    </tbody>
+    </tfoot>
 </table>
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    @* Load DataTable js here *@
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        var datatableVariable = $('#myTable').DataTable({
+
+                        serverSide: true,
+                        processing: true,
+
+                        ajax: {
+                            url: '@Url.Action("GroupHandler", "Groups")',
+                            type: "POST"
+                        },
+                        rowId:'Id',
+                        columns: [
+                                 { "data": "Id", "name": "Id", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "Name", "name": "Name", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "IsInactive", "name": "IsInactive", "autoWidth": true, "defaultContent": "lalal" },
+
+                                 { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
+
+
+                            {
+                                "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Group/Edit/' + full.rowId + '">Edit</a>'; }
+                                 },
+                                 {
+                                     data: null, render: function (data, type, row) {
+                                         return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.rowId + "'); >Delete</a>";
+                                     }
+                                 },
+                        ],
+
+
+
+
+        });
+        $('#myTable tfoot th').each(function () {
+            var placeHolderTitle = $('#myTable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control input input-lg; placeholder = "Search ' + placeHolderTitle + '" />');
+        });
+        datatableVariable.columns().every(function () {
+            var column = this;
+            $(this.footer()).find('input').on('keyup change', function () {
+                column.search(this.value).draw();
+            });
+        });
+        $('.showHide').on('click', function () {
+            var tableColumn = datatableVariable.column($(this).attr('data-columnindex'));
+            tableColumn.visible(!tableColumn.visible());
+        });
+
+    </script>
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
