@@ -255,7 +255,7 @@ namespace WebApplication1.Controllers
               
             }
             var test = _context.Group;
-            ViewData["CountryId"] = new SelectList(_context.Country, "id", "CountryName", user.CountryId);
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
             ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", user.IdGroup);
             return View(user);
         }
