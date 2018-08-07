@@ -228,7 +228,7 @@ namespace WebApplication1.Controllers
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName");
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name");
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name");
             return View();
         }
 
@@ -254,6 +254,7 @@ namespace WebApplication1.Controllers
                
               
             }
+            var test = _context.Group;
             ViewData["CountryId"] = new SelectList(_context.Country, "id", "CountryName", user.CountryId);
             ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", user.IdGroup);
             return View(user);
@@ -283,7 +284,7 @@ namespace WebApplication1.Controllers
             //    return NotFound();
             //}
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", myuser.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", myuser.IdGroup);
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", myuser.IdGroup);
             return View(myuser);
         }
 
@@ -331,7 +332,8 @@ namespace WebApplication1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name", user.IdGroup);
+         
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", user.IdGroup);
             return View(user);
         }
 
@@ -347,6 +349,11 @@ namespace WebApplication1.Controllers
                 .Include(u => u.Country)
                 .Include(u => u.IdGroupNavigation)
                 .SingleOrDefaultAsync(m => m.id == id);
+
+        
+            _context.User.Remove(user);
+            await _context.SaveChangesAsync();
+            
             if (user == null)
             {
                 return NotFound();

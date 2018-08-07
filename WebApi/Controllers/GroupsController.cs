@@ -36,7 +36,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var @group = await _context.Group.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Group.SingleOrDefaultAsync(m => m.id == id);
 
             if (@group == null)
             {
@@ -55,7 +55,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != @group.Id)
+            if (id != @group.id)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace WebApi.Controllers
             _context.Group.Add(@group);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
+            return CreatedAtAction("GetGroup", new { id = @group.id }, @group);
         }
 
         // DELETE: api/Groups/5
@@ -105,7 +105,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var @group = await _context.Group.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Group.SingleOrDefaultAsync(m => m.id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -119,7 +119,7 @@ namespace WebApi.Controllers
 
         private bool GroupExists(int id)
         {
-            return _context.Group.Any(e => e.Id == id);
+            return _context.Group.Any(e => e.id == id);
         }
     }
 }

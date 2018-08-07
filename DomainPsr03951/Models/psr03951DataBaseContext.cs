@@ -37,7 +37,7 @@ namespace DomainPsr03951.Models
 
             modelBuilder.Entity<Group>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.id).HasColumnName("Id");
 
                 entity.Property(e => e.DeactivatedDate).HasColumnType("datetime");
 
@@ -56,19 +56,7 @@ namespace DomainPsr03951.Models
 
                 entity.Property(e => e.IdGroup).HasColumnName("idGroup");
             });
-            //modelBuilder.Entity<RejointsViewModel>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.IdGroup, e.idUser });
-
-            //    entity.ToTable("rejoint");
-
-            //    entity.Property(e => e.IdGroup).HasColumnName("idGroup");
-            //    entity.Property(e => e.idUser).HasColumnName("idUser");
-            //    entity.Property(e => e.Name).HasColumnName("Name");
-            //    entity.Property(e => e.LastName).HasColumnName("LastName");
-            //    entity.Property(e => e.FirstName).HasColumnName("FirstName");
-
-            //});
+           
 
             modelBuilder.Entity<User>(entity =>
             {

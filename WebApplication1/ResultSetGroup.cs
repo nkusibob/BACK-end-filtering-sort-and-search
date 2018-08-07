@@ -38,7 +38,7 @@ namespace WebApplication1
             results = results.Where
             (
               p => (search == null
-                || p.Id != 0 && p.Id.ToString().ToLower().Contains(search.ToLower())
+                || p.id != 0 && p.id.ToString().ToLower().Contains(search.ToLower())
                 || p.Name != null && p.Name.ToString().ToLower().Contains(search.ToLower())
                 
                 || p.IsInactive != false && p.IsInactive.ToString().ToLower().Contains(search.ToLower())
@@ -46,7 +46,7 @@ namespace WebApplication1
                 || p.DeactivatedDate != null && p.DeactivatedDate == StringToDate(search)
                 )
 
-              && (columnFilters[0] == null || (p.Id != 0 && p.Id.ToString().ToLower().Contains(columnFilters[0].ToLower())))
+              && (columnFilters[0] == null || (p.id != 0 && p.id.ToString().ToLower().Contains(columnFilters[0].ToLower())))
               && (columnFilters[1] == null || (p.Name != null && p.Name.ToString().ToLower().Contains(columnFilters[1].ToLower())))
              
               && (columnFilters[2] == null || (p.IsInactive != false && p.IsInactive.ToString().ToLower().Contains(columnFilters[2].ToLower())))

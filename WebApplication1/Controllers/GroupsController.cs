@@ -69,7 +69,7 @@ namespace WebApplication1.Controllers
             }
 
             var @group = await _context.Group
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -134,7 +134,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IsInactive,DeactivatedDate")] Group @group)
         {
-            if (id != @group.Id)
+            if (id != @group.id)
             {
                 return NotFound();
             }
@@ -158,7 +158,7 @@ namespace WebApplication1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.Id))
+                    if (!GroupExists(@group.id))
                     {
                         return NotFound();
                     }
@@ -181,7 +181,7 @@ namespace WebApplication1.Controllers
             }
 
             var @group = await _context.Group
-                .SingleOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @group = await _context.Group.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Group.SingleOrDefaultAsync(m => m.id == id);
             _context.Group.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -203,7 +203,7 @@ namespace WebApplication1.Controllers
 
         private bool GroupExists(int id)
         {
-            return _context.Group.Any(e => e.Id == id);
+            return _context.Group.Any(e => e.id == id);
         }
     }
 }

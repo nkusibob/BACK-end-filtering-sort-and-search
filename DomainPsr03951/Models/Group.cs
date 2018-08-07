@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DomainPsr03951.Models
 {
@@ -9,8 +10,8 @@ namespace DomainPsr03951.Models
         {
             User = new HashSet<User>();
         }
-
-        public int Id { get; set; }
+        [Key]
+        public int id { get; set; }
         public string Name { get; set; }
         public bool IsInactive { get; set; }
         public DateTime? DeactivatedDate { get; set; }
