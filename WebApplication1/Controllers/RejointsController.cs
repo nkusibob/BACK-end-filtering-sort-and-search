@@ -53,7 +53,7 @@ namespace WebApplication1.Controllers
         {
             var user = _context.User;
             ViewBag.users = user.ToList();
-            ViewData["IdGroup"] = new SelectList(_context.Group, "Id", "Name");
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name");
             ViewData["IdUser"] = new SelectList(_context.User, "id", "LastName");
             return View();
         }

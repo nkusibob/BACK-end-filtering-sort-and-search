@@ -11,6 +11,10 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using WebApplication1.Model;
+using ClosedXML.Excel;
+using System.IO;
+using System.Data;
+using NToastNotify;
 
 namespace WebApplication1.Controllers
 {
@@ -18,14 +22,33 @@ namespace WebApplication1.Controllers
     {
         private readonly psr03951DataBaseContext _context;
         UserApi _api = new UserApi();
-        public GroupsController(psr03951DataBaseContext context)
+        private static List<Group> GroupsFilteredData = new List<Group>();
+
+        public GroupsController(psr03951DataBaseContext context, IToastNotification toastNotification)
         {
             _context = context;
+            _toastNotification = toastNotification;
         }
+        private readonly IToastNotification _toastNotification;
 
+       
+           
+       
         // GET: Groups
         public async Task<IActionResult> Index()
         {
+            _toastNotification.AddSuccessToastMessage("Same for success message");
+            // Success with default options (taking into account the overwritten defaults when initializing in Startup.cs)
+            _toastNotification.AddSuccessToastMessage();
+
+            //Info
+            _toastNotification.AddInfoToastMessage();
+
+            //Warning
+            _toastNotification.AddWarningToastMessage();
+
+            //Error
+            _toastNotification.AddErrorToastMessage();
             return View(await _context.Group.ToListAsync());
         }
         public JsonResult GroupHandler(DTParameters param)
@@ -45,6 +68,7 @@ namespace WebApplication1.Controllers
                 }
 
                 List<Group> data = new ResultSetGroup().GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                GroupsFilteredData = data;
                 int count = new ResultSetGroup().Count(param.Search.Value, dtsource, columnSearch);
                 DTResult<Group> result = new DTResult<Group>
                 {
@@ -132,7 +156,7 @@ namespace WebApplication1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IsInactive,DeactivatedDate")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("id,Name,IsInactive,DeactivatedDate")] Group @group)
         {
             if (id != @group.id)
             {
@@ -175,19 +199,25 @@ namespace WebApplication1.Controllers
         // GET: Groups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            int idbis = 0;
+            
             if (id == null)
             {
                 return NotFound();
             }
+            bool parse = int.TryParse(id.ToString(), out idbis);
 
             var @group = await _context.Group
                 .SingleOrDefaultAsync(m => m.id == id);
+            await DeleteConfirmed(idbis);
+           
             if (@group == null)
             {
                 return NotFound();
             }
 
             return View(@group);
+            
         }
 
         // POST: Groups/Delete/5
@@ -204,6 +234,47 @@ namespace WebApplication1.Controllers
         private bool GroupExists(int id)
         {
             return _context.Group.Any(e => e.id == id);
+        }
+
+        [HttpPost]
+        public FileResult Export(int? reportID)
+        {
+            DataTable dt = ExportToExcel.ExportGeneric(GroupsFilteredData);
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+
+                if ((dt.Columns[i].ColumnName.ToString().Contains("DATE") || (dt.Columns[i].ColumnName.ToString().Contains("Date"))))
+                {
+                    var name = dt.Columns[i].ColumnName;
+                    if (!(dt.Columns[i].ColumnName.ToString().Contains("FORMAT")))
+                    {
+                        dt.Columns.Remove(dt.Columns[i].ColumnName.ToString());
+                    }
+
+                }
+
+
+            }
+            int columnsCount = dt.Columns.Count;
+            int desiredCount = columnsCount - 1;
+            while (dt.Columns.Count > desiredCount)
+            {
+
+                dt.Columns.RemoveAt(desiredCount);
+
+            }
+            var fileName = "ExportGroups.xlsx"; //declaration.xlsx";
+
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
         }
     }
 }

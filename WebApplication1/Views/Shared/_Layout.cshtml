@@ -15,8 +15,11 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+  
 </head>
 <body>
+    @await Component.InvokeAsync("NToastNotify")
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -28,8 +31,12 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication1</a>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">create a group</a></li>
+                    <li><a asp-area="" asp-controller="Users" asp-action="Create">Register</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Groups" asp-action="create">create a group</a></li>
                     <li><a asp-area="" asp-controller="Users" asp-action="Create">Register</a></li>
@@ -68,5 +75,9 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+
+    </script>
 </body>
 </html>

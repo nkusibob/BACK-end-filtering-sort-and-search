@@ -14,6 +14,9 @@ using DomainPsr03951;
 using System.Text;
 using WebApplication1.Model;
 using Microsoft.AspNetCore.Cors;
+using System.Data;
+using System.IO;
+using ClosedXML.Excel;
 
 namespace WebApplication1.Controllers
 {
@@ -23,6 +26,8 @@ namespace WebApplication1.Controllers
         private readonly psr03951DataBaseContext _context;
         UserApi _api = new UserApi();
         private static List<User> filteredusers = new List<User>();
+        private static List<User> UsersFilteredData = new List<User>();
+
         public static DateTime StringToDate(string Date)
         {
             try
@@ -173,6 +178,7 @@ namespace WebApplication1.Controllers
                 }
 
                 List<User> data = new ResultSet().GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                UsersFilteredData = data;
                 int count = new ResultSet().Count(param.Search.Value, dtsource, columnSearch);
                 DTResult<User> result = new DTResult<User>
                 {
@@ -340,19 +346,21 @@ namespace WebApplication1.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            int idbis = 0;
+
             if (id == null)
             {
                 return NotFound();
             }
+            bool parse = int.TryParse(id.ToString(), out idbis);
 
             var user = await _context.User
                 .Include(u => u.Country)
                 .Include(u => u.IdGroupNavigation)
                 .SingleOrDefaultAsync(m => m.id == id);
 
-        
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
+            await DeleteConfirmed(idbis);
+            
             
             if (user == null)
             {
@@ -376,6 +384,56 @@ namespace WebApplication1.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.id == id);
+        }
+        [HttpPost]
+        public FileResult Export(int? reportID)
+        {
+            DataTable dt = ExportToExcel.ExportGeneric(UsersFilteredData);
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+
+                if ((dt.Columns[i].ColumnName.ToString().Contains("DATE") || (dt.Columns[i].ColumnName.ToString().Contains("Date"))))
+                {
+                    var name = dt.Columns[i].ColumnName;
+                    if (!(dt.Columns[i].ColumnName.ToString().Contains("FORMAT")))
+
+                    {
+                        if (!(dt.Columns[i].ColumnName.ToString().Contains("Edit")))
+
+                        {
+                            if (!(dt.Columns[i].ColumnName.ToString().Contains("Delete")))
+
+                            {
+                                dt.Columns.Remove(dt.Columns[i].ColumnName.ToString());
+                            }
+
+                        }
+                    }
+
+                }
+
+
+            }
+            int columnsCount = dt.Columns.Count;
+            int desiredCount = columnsCount - 2;
+            while (dt.Columns.Count > desiredCount)
+            {
+
+                dt.Columns.RemoveAt(desiredCount);
+
+            }
+            var fileName ="ExportUsers.xlsx"; //declaration.xlsx";
+
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
         }
     }
 }

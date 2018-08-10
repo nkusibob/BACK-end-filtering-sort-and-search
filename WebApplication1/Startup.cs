@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
 using Newtonsoft.Json.Serialization;
 
+
 namespace WebApplication1
 {
     public class Startup
@@ -33,7 +34,7 @@ namespace WebApplication1
                                 {
                                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                                 });
-
+            services.AddMvc().AddNToastNotifyNoty();
             return services.BuildServiceProvider();
         }
         //Data Source = DESKTOP - 3Q1QMSK;Initial Catalog = psr03951DataBase; Integrated Security = True
@@ -41,6 +42,10 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
+            app.UseNToastNotify();
+
+           
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

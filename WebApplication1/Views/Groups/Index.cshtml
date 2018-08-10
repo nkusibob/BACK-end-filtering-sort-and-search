@@ -10,7 +10,10 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <h2>Index</h2>
-
+@using (Html.BeginForm("Export", "Groups", null, FormMethod.Post))
+{
+    <input type="submit" value="Export" />
+}
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -78,12 +81,12 @@
                                  { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
 
 
-                            {
-                                "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Group/Edit/' + full.rowId + '">Edit</a>'; }
+                              {
+                                  "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Groups/Edit/' + full.id + '">Edit</a>'; }
                                  },
                                  {
                                      data: null, render: function (data, type, row) {
-                                         return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.rowId + "'); >Delete</a>";
+                                         return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
                                      }
                                  },
                         ],
@@ -106,96 +109,35 @@
             var tableColumn = datatableVariable.column($(this).attr('data-columnindex'));
             tableColumn.visible(!tableColumn.visible());
         });
-
-    </script>
-    <script>
-        function GetData() {
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                contentType: 'application/json',
-                url: '/Users/DataHandler',
-                data: '{}',
-                success: function (result) {
-                    $('#myTable').DataTable({
-                        data: result.d,
-                        "columns": [
-                            { "data": "id", "name": "id", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "CountryId", "name": "CountryId", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "FirstName", "name": "FirstName", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "LastName", "name": "LastName", "autoWidth": true, "defaultContent": "lalal" },
-
-                            { "data": "CreationDate_FORMAT", "name": "CreationDate", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "EmailAdress", "name": "EmailAdress", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "Gender", "name": "Gender", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "PhoneNumber", "name": "PhoneNumber", "autoWidth": true, "defaultContent": "lalal" },
-
-                            { "data": "isInactive", "name": "isInactive", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "GravatarUrl", "name": "GravatarUrl", "autoWidth": true, "defaultContent": "lalal" },
-                            { "data": "IdGroup", "name": "IdGroup", "autoWidth": true, "defaultContent": "lalal" },
-
-
-                            {
-                                "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/User/Edit/' + full.CustomerID + '">Edit</a>'; }
-                            },
-                            {
-                                data: null, render: function (data, type, row) {
-                                    return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
-                                }
-                            },
-                        ]
-                    });
-                }
-            }
-
-        $(document).ready(function ()
-        {
-            $("#myTable").DataTable({
-                "processing": true, // for show progress bar
-                "serverSide": true, // for process server side
-                "filter": true, // this is for disable filter (search box)
-                "orderMulti": false, // for disable multiple column at once
-                GetData()
-
-
-
-        });
-
-
-        function DeleteData(id)
-        {
-            if (confirm("Are you sure you want to delete ...?"))
-            {
+        function DeleteData(id) {
+            if (confirm("Are you sure you want to delete ...?")) {
                 Delete(id);
             }
-            else
-            {
+            else {
                 return false;
             }
         }
 
 
-        function Delete(id)
-    {
-        var url = '@Url.Content("~/")' + "User/Delete";
+        function Delete(id) {
+            $.ajax({
+                url: 'Groups/Delete/',
+                data: { id: id }
+            }).done(function () {
+                alert('Deleted');
+            });
+        }
+    </script>
+    <script>
 
-            $.post(url, { ID: CustomerID }, function (data)
-                {
-                    if (data)
-                    {
-                        oTable = $('#myTable').DataTable();
-                        oTable.draw();
-                    }
-                    else
-                    {
-                        alert("Something Went Wrong!");
-                    }
-                });
-    }
+
+
+
+
+
 
     </script>
-   
+
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
