@@ -14,7 +14,7 @@ using WebApplication1.Model;
 using ClosedXML.Excel;
 using System.IO;
 using System.Data;
-using NToastNotify;
+//using NToastNotify;
 
 namespace WebApplication1.Controllers
 {
@@ -24,12 +24,12 @@ namespace WebApplication1.Controllers
         UserApi _api = new UserApi();
         private static List<Group> GroupsFilteredData = new List<Group>();
 
-        public GroupsController(psr03951DataBaseContext context, IToastNotification toastNotification)
+        public GroupsController(psr03951DataBaseContext context)//, IToastNotification toastNotification)
         {
             _context = context;
-            _toastNotification = toastNotification;
+            //_toastNotification = toastNotification;
         }
-        private readonly IToastNotification _toastNotification;
+       // private readonly IToastNotification _toastNotification;
 
        
            
@@ -37,18 +37,18 @@ namespace WebApplication1.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            _toastNotification.AddSuccessToastMessage("Same for success message");
-            // Success with default options (taking into account the overwritten defaults when initializing in Startup.cs)
-            _toastNotification.AddSuccessToastMessage();
+            //_toastNotification.AddSuccessToastMessage("Same for success message");
+            //// Success with default options (taking into account the overwritten defaults when initializing in Startup.cs)
+            //_toastNotification.AddSuccessToastMessage();
 
-            //Info
-            _toastNotification.AddInfoToastMessage();
+            ////Info
+            //_toastNotification.AddInfoToastMessage();
 
-            //Warning
-            _toastNotification.AddWarningToastMessage();
+            ////Warning
+            //_toastNotification.AddWarningToastMessage();
 
-            //Error
-            _toastNotification.AddErrorToastMessage();
+            ////Error
+            //_toastNotification.AddErrorToastMessage();
             return View(await _context.Group.ToListAsync());
         }
         public JsonResult GroupHandler(DTParameters param)

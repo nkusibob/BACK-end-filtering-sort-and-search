@@ -10,6 +10,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using WebApplication1.Helper;
+using WebApplication1.Model;
 
 namespace WebApplication1.Controllers
 {

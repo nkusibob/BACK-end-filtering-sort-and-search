@@ -2,21 +2,31 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All Groups";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<h2>Index</h2>
-@using (Html.BeginForm("Export", "Groups", null, FormMethod.Post))
-{
-    <input type="submit" value="Export" />
-}
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<div class="container">
+    <h2>All Groups</h2>
+    <div class="row">
+        <div class="col-lg-2">
+            @using (Html.BeginForm("Export", "Groups", null, FormMethod.Post))
+            {
+                <input class="btn btn-warning" type="submit" value="Export Any Overview" />
+            }
+        </div>
+        <div class="col-lg-2">
+            <p>
+                <a class="btn btn-info" asp-action="Create">Create New Group</a>
+            </p>
+        </div>
+
+    </div>
+</div>
 <table id="myTable">
     <thead>
         <tr>

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WebApplication1.Model;
 
 namespace WebApi
 {

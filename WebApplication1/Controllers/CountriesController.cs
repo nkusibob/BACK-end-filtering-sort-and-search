@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+using WebApplication1.Model;
 
 namespace WebApplication1.Controllers
 {

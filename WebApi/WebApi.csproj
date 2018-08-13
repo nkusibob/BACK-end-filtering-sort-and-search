@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NToastNotify" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
@@ -26,6 +25,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainPsr03951\DomainPsr03951.csproj" />
+    <ProjectReference Include="..\WebApplication1\WebApplication1.csproj" />
+
   </ItemGroup>
 
 </Project>
