@@ -100,19 +100,8 @@ namespace WebApi.Controllers
 
             try
             {
-                _context.User.Add(new User {
-                    CountryId=user.CountryId,
-                    FirstName=user.FirstName,
-                    LastName=user.LastName,
-                    CreationDate=user.CreationDate,
-                    EmailAdress=user.EmailAdress,
-                    Gender=user.Gender,
-                    PhoneNumber=user.PhoneNumber,
-                    IsInactive=user.IsInactive,
-                    DeactiveDate=user.DeactiveDate,
-                    GravatarUrl=user.GravatarUrl,
-                    IdGroup=user.IdGroup
-                });
+                _context.User.Add(user);
+           
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

@@ -1,5 +1,4 @@
-﻿@model DomainPsr03951.Models.Rejoint
-
+﻿@model IEnumerable<DomainPsr03951.Models.Rejoint>
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,19 +8,24 @@
 
 <h4>Rejoint</h4>
 <hr />
+@foreach (var item in Model)
+{
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="IdGroup" />
-            <input  asp-for="idUser" />
-        
+            <input asp-for="@item.IdGroup" />
+            <input asp-for="@item.idUser" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
+
+}
+    
 
 <div>
     <a asp-action="Index">Back to List</a>

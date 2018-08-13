@@ -27,6 +27,12 @@ namespace WebApplication1.Controllers
                         Group = Group.Key,
                         Count = Group.Count(),
                     };
+            var usersperGroup = db.UserGroupViewModels.FromSql("EXECUTE dbo.sp_userPerGroup").ToList().Distinct();
+            var countGroup = db.Group.Count();
+            ViewBag.countGroup = countGroup;
+            var usersOtherGroup = db.UserGroupViewModels.FromSql("EXECUTE dbo.sp_userOtherGroup").ToList().Distinct();
+            ViewBag.userPerGroup = usersperGroup;
+            ViewBag.usersOtherGroup = usersOtherGroup;
             var countAllUsers = db.User.Count();
             ViewBag.countUsers = countAllUsers;
             var users = db.User;

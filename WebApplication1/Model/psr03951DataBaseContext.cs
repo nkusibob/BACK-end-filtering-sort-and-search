@@ -14,6 +14,9 @@ namespace WebApplication1.Model
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Rejoint> Rejoint { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserGroupViewModel> UserGroupViewModels { get; set; }
+        
+
         public psr03951DataBaseContext(DbContextOptions<psr03951DataBaseContext> options) :base(options)
         {
 
