@@ -5,13 +5,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DomainPsr03951.Models;
+using WebApplication1.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly psr03951DataBaseContext db;
+        public HomeController(psr03951DataBaseContext context)
+        {
+            db = context;
+        }
         public IActionResult Index()
         {
+            var UserPerGroup =
+                    from user in db.User
+                    group user by user.IdGroupNavigation.Name into Group
+                    select new
+                    {
+                        Group = Group.Key,
+                        Count = Group.Count(),
+                    };
+            var usersperGroup = db.UserGroupViewModels.FromSql("EXECUTE dbo.sp_userPerGroupBis").ToList();
+            var countGroup = db.Group.Count();
+            ViewBag.countGroup = countGroup;
+            var usersOtherGroup = db.UserGroupViewModels.FromSql("EXECUTE dbo.sp_userOtherGroup").ToList().Distinct();
+            ViewBag.userPerGroup = usersperGroup;
+            ViewBag.usersOtherGroup = usersOtherGroup;
+            var countAllUsers = db.User.Count();
+            ViewBag.countUsers = countAllUsers;
+            var users = db.User;
+            Dictionary<string, int> mylist = new Dictionary<string, int>();
+            var groups = UserPerGroup.ToList();
+            foreach (var item in groups)
+            {
+                mylist.Add(item.Group, item.Count);
+            }
+            ViewBag.users = users;
+            ViewBag.mylist = mylist;
+
             return View();
         }
 

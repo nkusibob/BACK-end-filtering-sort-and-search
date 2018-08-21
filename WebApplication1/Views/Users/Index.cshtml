@@ -7,15 +7,27 @@
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<h2>Index</h2>
-@using (Html.BeginForm("Export", "Users", null, FormMethod.Post))
-{
-    <input type="submit" value="Export" />
-}
+<div class="container">
+    <div class="row">
+        <h2>All Users</h2>
+        <div class="col-lg-2">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+            @using (Html.BeginForm("Export", "Users", null, FormMethod.Post))
+            {
+                <input class="btn btn-warning" type="submit" value="Export" />
+            }
+        </div>
+        <div class="col-lg-2">
+            <p>
+                <a class="btn btn-info" asp-action="Create">Create New</a>
+            </p>
+        </div>
+
+
+
+
+    </div>
+</div>
 <table id="myTable">
     <thead>
         <tr>

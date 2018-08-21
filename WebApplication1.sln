@@ -10,9 +10,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainPsr03951", "DomainPsr
 		{25266C9C-BD5A-4C51-8B01-268FDFD6B033} = {25266C9C-BD5A-4C51-8B01-268FDFD6B033}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{25266C9C-BD5A-4C51-8B01-268FDFD6B033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "Framework\Framework.csproj", "{25266C9C-BD5A-4C51-8B01-268FDFD6B033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Cors;
 using System.Data;
 using System.IO;
 using ClosedXML.Excel;
+//using NToastNotify;
 
 namespace WebApplication1.Controllers
 {
@@ -27,6 +28,7 @@ namespace WebApplication1.Controllers
         UserApi _api = new UserApi();
         private static List<User> filteredusers = new List<User>();
         private static List<User> UsersFilteredData = new List<User>();
+       
 
         public static DateTime StringToDate(string Date)
         {
@@ -39,6 +41,7 @@ namespace WebApplication1.Controllers
                 return DateTime.Parse("1/1/0001");
             }
         }
+       // private readonly IToastNotification _toastNotification;
         public UsersController(psr03951DataBaseContext context)
         {
             _context = context;
@@ -200,12 +203,146 @@ namespace WebApplication1.Controllers
 
             List<User> users = new List<User>();
             HttpClient client = _api.Initial();
+
             HttpResponseMessage res = await client.GetAsync("api/users");
             if (res.IsSuccessStatusCode)
             {
                 var result = res.Content.ReadAsStringAsync().Result;
                 users =  JsonConvert.DeserializeObject<List<User>>(result);
             }
+            //switch (res.StatusCode)
+            //{
+            //    case HttpStatusCode.Accepted:
+            //        _toastNotification.AddSuccessToastMessage("Accepted");
+            //        break;
+            //    case HttpStatusCode.Ambiguous:
+            //        _toastNotification.AddErrorToastMessage("Ambiguous");
+            //        break;
+            //    case HttpStatusCode.BadGateway:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.BadRequest:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Conflict:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Continue:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Created:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.ExpectationFailed:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Forbidden:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Found:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.GatewayTimeout:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Gone:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.HttpVersionNotSupported:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.InternalServerError:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.LengthRequired:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.MethodNotAllowed:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.Moved:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+                
+            //    case HttpStatusCode.NoContent:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.NonAuthoritativeInformation:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.NotAcceptable:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.NotFound:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.NotImplemented:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.NotModified:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.OK:
+            //        break;
+            //    case HttpStatusCode.PartialContent:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.PaymentRequired:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.PreconditionFailed:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.ProxyAuthenticationRequired:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+               
+            //    case HttpStatusCode.RedirectKeepVerb:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.RedirectMethod:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.RequestedRangeNotSatisfiable:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.RequestEntityTooLarge:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.RequestTimeout:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.RequestUriTooLong:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.ResetContent:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+                
+            //    case HttpStatusCode.ServiceUnavailable:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.SwitchingProtocols:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+               
+            //    case HttpStatusCode.Unauthorized:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.UnsupportedMediaType:
+            //        break;
+            //    case HttpStatusCode.Unused:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.UpgradeRequired:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    case HttpStatusCode.UseProxy:
+            //        _toastNotification.AddErrorToastMessage("BadGateway");
+            //        break;
+            //    default:
+            //        break;
+            //}
             //var psr03951DataBaseContext = _context.User.Include(u => u.Country).Include(u => u.IdGroupNavigation);
             return View(users);
         }
@@ -257,8 +394,12 @@ namespace WebApplication1.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-               
-              
+
+
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
             var test = _context.Group;
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", user.CountryId);
@@ -344,24 +485,18 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Users/Delete/5
+        // GET: Users1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            int idbis = 0;
-
             if (id == null)
             {
                 return NotFound();
             }
-            bool parse = int.TryParse(id.ToString(), out idbis);
 
             var user = await _context.User
                 .Include(u => u.Country)
                 .Include(u => u.IdGroupNavigation)
                 .SingleOrDefaultAsync(m => m.id == id);
-
-            await DeleteConfirmed(idbis);
-            
-            
             if (user == null)
             {
                 return NotFound();
@@ -370,7 +505,7 @@ namespace WebApplication1.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+        // POST: Users1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -380,7 +515,6 @@ namespace WebApplication1.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.id == id);

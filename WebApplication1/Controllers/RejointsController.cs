@@ -10,6 +10,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using WebApplication1.Helper;
+using WebApplication1.Model;
 
 namespace WebApplication1.Controllers
 {
@@ -25,8 +26,11 @@ namespace WebApplication1.Controllers
         // GET: Rejoints
         public  ActionResult Index()
         {
-            var usersperGroup =  _context.Rejoint.FromSql("EXECUTE dbo.sp_userOtherGroup").ToList();
+            var usersperGroup = _context.Rejoint.FromSql("EXECUTE dbo.sp_userPerGroup").ToList();
+
+            var usersOtherGroup = _context.UserGroupViewModels.FromSql("EXECUTE dbo.sp_userOtherGroup").ToList();
             ViewBag.userPerGroup = usersperGroup;
+            ViewBag.usersOtherGroup = usersOtherGroup;
             return View(usersperGroup);
         }
 

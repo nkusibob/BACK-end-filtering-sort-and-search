@@ -10,7 +10,9 @@ using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
 using Newtonsoft.Json.Serialization;
-
+using Microsoft.AspNetCore.Identity;
+using WebApplication1.Services;
+using WebApplication1.Model;
 
 namespace WebApplication1
 {
@@ -26,7 +28,7 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            
             var connection = @"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;ConnectRetryCount=0";
           services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
             services.AddMvc()
@@ -34,7 +36,15 @@ namespace WebApplication1
                                 {
                                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                                 });
-            services.AddMvc().AddNToastNotifyNoty();
+           
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+               .AddEntityFrameworkStores<psr03951DataBaseContext>()
+               .AddDefaultTokenProviders();
+            
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
+      CustomClaimsPrincipalFactory>();
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
             return services.BuildServiceProvider();
         }
         //Data Source = DESKTOP - 3Q1QMSK;Initial Catalog = psr03951DataBase; Integrated Security = True
@@ -43,7 +53,7 @@ namespace WebApplication1
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             
-            app.UseNToastNotify();
+            //app.UseNToastNotify();
 
            
             if (env.IsDevelopment())

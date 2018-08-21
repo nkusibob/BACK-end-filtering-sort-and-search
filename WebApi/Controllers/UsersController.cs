@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
+//using NToastNotify;
+using WebApplication1.Model;
 
 namespace WebApi.Controllers
 {
@@ -14,6 +16,7 @@ namespace WebApi.Controllers
     public class UsersController : Controller
     {
         private readonly psr03951DataBaseContext _context;
+       // private readonly IToastNotification _toastNotification;
 
         public UsersController(psr03951DataBaseContext context)
         {
@@ -31,18 +34,23 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
+                if (!ModelState.IsValid)
+                {
+                   // _toastNotification.AddErrorToastMessage("Bad Request");
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.id == id);
+                    return BadRequest(ModelState);
+                }
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+                var user = await _context.User.SingleOrDefaultAsync(m => m.id == id);
 
+                if (user == null)
+                {
+                  //  _toastNotification.AddErrorToastMessage("user not found");
+                    return NotFound();
+                }
+            
+            
             return Ok(user);
         }
 
