@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
 //using NToastNotify;
-using WebApplication1.Model;
+using WebApplication2.Model;
 
 namespace WebApi.Controllers
 {

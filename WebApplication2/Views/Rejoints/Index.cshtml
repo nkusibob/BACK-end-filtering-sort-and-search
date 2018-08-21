@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DomainPsr03951.Models.Rejoint>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idUser)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IdGroup)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.userPerGroup)
+        {
+            <tr>
+                <td>
+                    @item.idUser
+                </td>
+
+                <td>
+                    @item.IdGroup
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Users", new { id = item.idUser }) |
+                    @Html.ActionLink("Details", "Details", "Users", new { id = item.idUser }) |
+                    @Html.ActionLink("Delete", "Delete", "Users", new { id = item.idUser })
+                </td>
+            </tr>
+        }
+
+</table>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <h2>id User</h2>
+            </th>
+            <th>
+                <h2>LastName</h2>
+            </th>
+            <th>
+                <h2>FirstName</h2>
+            </th>
+
+            <th>
+                <h2>id Group</h2>
+            </th>
+            <th>
+                <h2>Group Name</h2>
+            </th>
+            <th>
+                <h2></h2>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.usersOtherGroup)
+        {
+            <tr>
+                <td>
+                    @item.IdUser
+                </td>
+                <td>
+                    @item.LastName
+                </td>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>
+                    @item.idGroup
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Users", new { id = item.IdUser }, null) |
+                    @Html.ActionLink("Details", "Details", "Users", new { id = item.IdUser }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Rejoints", new { id = item.id }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

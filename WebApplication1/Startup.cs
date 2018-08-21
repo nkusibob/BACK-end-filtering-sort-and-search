@@ -13,6 +13,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using WebApplication1.Services;
 using WebApplication1.Model;
+using WebApplication1.Data;
 
 namespace WebApplication1
 {
@@ -28,9 +29,13 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            
+        
             var connection = @"Server=DESKTOP-3Q1QMSK;Database=psr03951DataBase;Trusted_Connection=True;ConnectRetryCount=0";
-          services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
+
+
+            services.AddDbContext<psr03951DataBaseContext>(options => options.UseSqlServer(connection));
             services.AddMvc()
                                 .AddJsonOptions(options =>
                                 {

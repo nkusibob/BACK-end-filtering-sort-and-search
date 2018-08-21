@@ -1,0 +1,153 @@
+﻿@model IEnumerable<DomainPsr03951.Models.Group>
+
+
+@{
+    ViewData["Title"] = "All Groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<div class="container">
+    <h2>All Groups</h2>
+    <div class="row">
+        <div class="col-lg-2">
+            @using (Html.BeginForm("Export", "Groups", null, FormMethod.Post))
+            {
+                <input class="btn btn-warning" type="submit" value="Export Any Overview" />
+            }
+        </div>
+        <div class="col-lg-2">
+            <p>
+                <a class="btn btn-info" asp-action="Create">Create New Group</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+<table id="myTable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactivatedDate)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsInactive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeactivatedDate)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </tfoot>
+</table>
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    @* Load DataTable js here *@
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        var datatableVariable = $('#myTable').DataTable({
+
+                        serverSide: true,
+                        processing: true,
+
+                        ajax: {
+                            url: '@Url.Action("GroupHandler", "Groups")',
+                            type: "POST"
+                        },
+                      rowId: 'id',
+                          columns: [
+                                 { "data": "id", "name": "id", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "Name", "name": "Name", "autoWidth": true, "defaultContent": "lalal" },
+                                 { "data": "IsInactive", "name": "IsInactive", "autoWidth": true, "defaultContent": "lalal" },
+
+                                 { "data": "DeactiveDate_FORMAT", "name": "DeactiveDate", "autoWidth": true, "defaultContent": "lalal" },
+
+
+                              {
+                                  "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Groups/Edit/' + full.id + '">Edit</a>'; }
+                                 },
+                                 {
+                                     data: null, render: function (data, type, row) {
+                                         return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
+                                     }
+                                 },
+                        ],
+
+
+
+
+        });
+        $('#myTable tfoot th').each(function () {
+            var placeHolderTitle = $('#myTable thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control input input-sm; placeholder = "Search ' + placeHolderTitle + '" />');
+        });
+        datatableVariable.columns().every(function () {
+            var column = this;
+            $(this.footer()).find('input').on('keyup change', function () {
+                column.search(this.value).draw();
+            });
+        });
+        $('.showHide').on('click', function () {
+            var tableColumn = datatableVariable.column($(this).attr('data-columnindex'));
+            tableColumn.visible(!tableColumn.visible());
+        });
+        function DeleteData(id) {
+            if (confirm("Are you sure you want to delete ...?")) {
+                Delete(id);
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        function Delete(id) {
+            $.ajax({
+                url: 'Groups/Delete/',
+                data: { id: id }
+            }).done(function () {
+                alert('Deleted');
+            });
+        }
+    </script>
+    <script>
+
+
+
+
+
+
+
+    </script>
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

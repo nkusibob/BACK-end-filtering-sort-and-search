@@ -14,6 +14,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "Framework\Fram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{5CBCD381-CBD9-4483-B66C-8D403BD0C914}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE9BFA8E-6CEA-489F-A596-7D93495C92EC} = {AE9BFA8E-6CEA-489F-A596-7D93495C92EC}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +41,10 @@ Global
 		{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B73D4DCD-E89C-4098-92BD-9C0A6875F2E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CBCD381-CBD9-4483-B66C-8D403BD0C914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CBCD381-CBD9-4483-B66C-8D403BD0C914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CBCD381-CBD9-4483-B66C-8D403BD0C914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CBCD381-CBD9-4483-B66C-8D403BD0C914}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

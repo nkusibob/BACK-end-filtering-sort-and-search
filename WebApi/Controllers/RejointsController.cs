@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
-using WebApplication1.Model;
+
+using WebApplication2.Model;
 
 namespace WebApi.Controllers
 {

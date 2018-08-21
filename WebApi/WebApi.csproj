@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
@@ -25,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainPsr03951\DomainPsr03951.csproj" />
-    <ProjectReference Include="..\WebApplication1\WebApplication1.csproj" />
+    <ProjectReference Include="..\WebApplication2\WebApplication2.csproj" />
 
   </ItemGroup>
 
