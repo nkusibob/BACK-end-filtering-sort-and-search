@@ -20,6 +20,16 @@ namespace WebApi.Controllers
         private readonly psr03951DataBaseContext _context;
         // private readonly IToastNotification _toastNotification;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _manager;
+
+        // Inject UserManager using dependency injection.
+        // Works only if you choose "Individual user accounts" during project creation.
+
+        // You can also just take part after return and use it in async methods.
+        public  async Task<ApplicationUser> GetCurrentUser()
+        {
+            return await _manager.GetUserAsync(HttpContext.User);
+        }
         public UsersController(psr03951DataBaseContext context)
         {
             _context = context;
@@ -100,8 +110,6 @@ namespace WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-           
             try
             {
                
@@ -110,7 +118,7 @@ namespace WebApi.Controllers
                     FirstName=user.FirstName,
                     LastName=user.LastName,
                     CreationDate=user.CreationDate,
-                    EmailAdress=user.EmailAdress,
+                    EmailAdress= user.EmailAdress,
                     Gender=user.Gender,
                     PhoneNumber=user.PhoneNumber,
                     IsInactive=user.IsInactive,
@@ -127,6 +135,11 @@ namespace WebApi.Controllers
             }
 
             return CreatedAtAction("GetUser", new { id = user.id }, user);
+        }
+
+        private Task GetUserAsync()
+        {
+            throw new NotImplementedException();
         }
 
         // DELETE: api/Users/5

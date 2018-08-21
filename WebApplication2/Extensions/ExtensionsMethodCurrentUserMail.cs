@@ -7,7 +7,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using WebApplication2.Model;
 
-namespace WebApplication2.Helper
+namespace WebApplication2.Services
 {
     public static class ExtensionsMethodCurrentUserMail
     {

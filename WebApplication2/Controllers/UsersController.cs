@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Cors;
 using System.Data;
 using System.IO;
 using ClosedXML.Excel;
+using WebApplication2.Models;
+using Microsoft.AspNetCore.Identity;
 //using NToastNotify;
 
 namespace WebApplication2.Controllers
@@ -28,7 +30,7 @@ namespace WebApplication2.Controllers
         UserApi _api = new UserApi();
         private static List<User> filteredusers = new List<User>();
         private static List<User> UsersFilteredData = new List<User>();
-       
+        
 
         public static DateTime StringToDate(string Date)
         {
@@ -263,7 +265,7 @@ namespace WebApplication2.Controllers
             //    case HttpStatusCode.Moved:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
-                
+
             //    case HttpStatusCode.NoContent:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
@@ -296,7 +298,7 @@ namespace WebApplication2.Controllers
             //    case HttpStatusCode.ProxyAuthenticationRequired:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
-               
+
             //    case HttpStatusCode.RedirectKeepVerb:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
@@ -318,14 +320,14 @@ namespace WebApplication2.Controllers
             //    case HttpStatusCode.ResetContent:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
-                
+
             //    case HttpStatusCode.ServiceUnavailable:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
             //    case HttpStatusCode.SwitchingProtocols:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
-               
+
             //    case HttpStatusCode.Unauthorized:
             //        _toastNotification.AddErrorToastMessage("BadGateway");
             //        break;
@@ -344,6 +346,8 @@ namespace WebApplication2.Controllers
             //        break;
             //}
             //var psr03951DataBaseContext = _context.User.Include(u => u.Country).Include(u => u.IdGroupNavigation);
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", "CountryId");
+            ViewData["IdGroup"] = new SelectList(_context.Group, "id", "Name", "IdGroup");
             return View(users);
         }
 
