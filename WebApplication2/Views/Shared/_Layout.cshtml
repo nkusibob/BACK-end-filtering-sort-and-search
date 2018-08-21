@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApplication2</title>
+    <title>@ViewData["Title"] - Join a Team</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -15,8 +15,11 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+
 </head>
 <body>
+    @*@await Component.InvokeAsync("NToastNotify")*@
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,13 +29,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication2</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Join a Team</a>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Users" asp-action="Create">Register</a></li>
+                    <li><a asp-area="" asp-controller="Rejoints" asp-action="Create">Join a group</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -42,7 +46,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - WebApplication2</p>
+            <p>&copy; 2018 - WebApplication1</p>
         </footer>
     </div>
 
@@ -68,5 +72,9 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+
+    </script>
 </body>
 </html>

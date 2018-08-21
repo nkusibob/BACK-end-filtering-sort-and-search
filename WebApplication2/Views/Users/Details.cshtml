@@ -1,0 +1,88 @@
+﻿@model DomainPsr03951.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body class="animated fadeIn">
+    <section id="login-container">
+        <div class="panel panel-primary animated flipInY">
+            <div class="panel-footer">
+                <h3 class="panel-heading">
+                    @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div>
+
+                    <h4>@Html.DisplayFor(model => model.Country.CountryName)</h4>
+                    <hr />
+                    <div class="col-lg-12 col-sm-12 hero-feature">
+                        <div class="col-lg-12 col-sm-12">
+                            <h4 class="title">@Html.DisplayFor(model => model.IdGroupNavigation.Name)</h4>
+                        </div>
+                        <div class="sp-wrap col-lg-6 col-sm-6">
+                            <a href="~/assets/img/avatar.png"><img style="width:70%" src="@Html.DisplayFor(model => model.GravatarUrl)" alt=""></a>
+
+                        </div>
+
+                        <dl class="dl-horizontal sp-wrap col-lg-6 col-sm-6">
+
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CreationDate)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.CreationDate)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.EmailAdress)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.EmailAdress)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Gender)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.IsInactive)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.IsInactive)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DeactiveDate)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.DeactiveDate)
+                            </dd>
+
+
+                        </dl>
+                        <hr />
+
+                        <br />
+                        <hr />
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+            <a class="btn btn-info" asp-action="Index">Back to List</a>
+        </div>
+        </section>
+        </body>

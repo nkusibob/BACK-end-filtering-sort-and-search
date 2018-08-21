@@ -47,7 +47,7 @@ namespace WebApplication2
                 || p.EmailAdress != null && p.EmailAdress.ToString().ToLower().Contains(search.ToLower())
                 || p.Gender != null && p.Gender.ToString().ToLower().Contains(search.ToLower())
                 || p.PhoneNumber != null && p.PhoneNumber.ToString().ToLower().Contains(search.ToLower())
-                || p.IsInactive != null && p.IsInactive.ToString().ToLower().Contains(search.ToLower())
+                || p.IsInactive != true && p.IsInactive.ToString().ToLower().Contains(search.ToLower())
 
                 || p.DeactiveDate != null && p.DeactiveDate == StringToDate(search)
                  || p.GravatarUrl != null && p.GravatarUrl.ToString().ToLower().Contains(search.ToLower())
@@ -61,7 +61,7 @@ namespace WebApplication2
               && (columnFilters[5] == null || (p.EmailAdress != null && p.EmailAdress.ToString().ToLower().Contains(columnFilters[5].ToLower())))
               && (columnFilters[6] == null || (p.Gender != null && p.Gender.ToString().ToLower().Contains(columnFilters[6].ToLower())))
               && (columnFilters[7] == null || (p.PhoneNumber != null && p.PhoneNumber.ToString().ToLower().Contains(columnFilters[7].ToLower())))
-              && (columnFilters[8] == null || (p.IsInactive != null && p.IsInactive.ToString().ToLower().Contains(columnFilters[8].ToLower())))
+              && (columnFilters[8] == null || (p.IsInactive != true && p.IsInactive.ToString().ToLower().Contains(columnFilters[8].ToLower())))
               && (columnFilters[9] == null || (p.DeactiveDate_FORMAT != null && p.DeactiveDate_FORMAT.ToString().ToLower().Contains(columnFilters[9].ToLower())))
 
               && (columnFilters[10] == null || p.GravatarUrl != null && (p.GravatarUrl.ToString().ToLower().Contains(columnFilters[10].ToLower())))

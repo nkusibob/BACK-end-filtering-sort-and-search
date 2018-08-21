@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DomainPsr03951.Models;
 //using NToastNotify;
 using WebApplication2.Model;
+using Microsoft.AspNetCore.Identity;
+using WebApplication2.Models;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +18,12 @@ namespace WebApi.Controllers
     public class UsersController : Controller
     {
         private readonly psr03951DataBaseContext _context;
-       // private readonly IToastNotification _toastNotification;
-
+        // private readonly IToastNotification _toastNotification;
+        private readonly UserManager<ApplicationUser> _userManager;
         public UsersController(psr03951DataBaseContext context)
         {
             _context = context;
+         
         }
 
         // GET: api/Users
@@ -98,8 +101,10 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
+           
             try
             {
+               
                 _context.User.Add(new User {
                     CountryId=user.CountryId,
                     FirstName=user.FirstName,
