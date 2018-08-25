@@ -64,23 +64,24 @@
     <![endif]-->
 </head>
 <body class="body-content">
-   
 
+
+
+
+    <!-- Form Modal -->
   
-
-
-
+    <!-- End Form Modal -->
     <!-- Details Modal -->
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          
 
 
-                @foreach (var item in Model)
-                {
-                    <div class="modal-content">
-                        @if (item.EmailAdress == UserManager.GetUserName(User))
-                        {
+
+            @foreach (var item in Model)
+            {
+                <div class="modal-content">
+                    @if (item.EmailAdress == UserManager.GetUserName(User))
+                    {
 
 
 
@@ -101,12 +102,12 @@
                                             <div class="col-lg-12 col-sm-12">
                                                 <h4 class="title"></h4>
                                             </div>
-                                            <div class="sp-wrap col-lg-6 col-sm-6">
+                                            <div class="sp-wrap col-lg-4 col-sm-4">
                                                 <a href="~/assets/img/avatar.png"><img style="width:70%" src="@item.GravatarUrl" alt=""></a>
 
                                             </div>
 
-                                            <dl class="dl-horizontal sp-wrap col-lg-6 col-sm-6">
+                                            <dl class="dl-horizontal sp-wrap col-lg-8 col-sm-8">
 
 
                                                 <dt>
@@ -169,21 +170,21 @@
 
 
 
-                        }
-                        </div>
+                    }
+                </div>
 
 
-                }
-
-
-
+            }
 
 
 
 
-                       
-                    </div>
-               
+
+
+
+
+        </div>
+
     </div>
     <!-- End Details Modal -->
     <div class="container">
@@ -205,7 +206,7 @@
                 Details
             </button>
 
-
+            
 
 
         </div>
